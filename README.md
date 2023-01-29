@@ -16,6 +16,7 @@ Můj nejambicióznější projekt\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notace a její export\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vlastní vzhled figurek\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dva módy časomíry (fixní délka tahu, vzájemná)\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stockfish integrace (AI)\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... a další věci\
 \
 Kolik hodin jsem na tom strávil? Nemám tušení už, jsem zoufalý, pomoc\
@@ -23,9 +24,9 @@ Kolik hodin jsem na tom strávil? Nemám tušení už, jsem zoufalý, pomoc\
 Eventuálně možná přidám:\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Splněno] Další druhy časomíry\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Splněno] Různé možnosti grafiky figurek\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ukládání (nastavení, šachovnice)\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ukládání nastavení\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Částečně splněno] Notaci pohybů: výpis a provedení\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AI, když se bude opravdu hodně chtít\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Pracuje se] Napojení na fyzickou desku - Ignácovy šachy 3D\
 \
 Eventuálně se možná dokopu k tomu, abych:\
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optimalizoval kód; některé metody se volají vícekrát, než je nutné\
