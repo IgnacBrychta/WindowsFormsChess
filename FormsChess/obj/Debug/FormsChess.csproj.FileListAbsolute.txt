@@ -1,0 +1,143 @@
+C:\Users\orbit\source\repos\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\orbit\source\repos\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\orbit\source\repos\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\orbit\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\Ignác\source\repos\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+E:\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\orbit\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form2.resources
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form_nastaveni.resources
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\orbit\source\repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CopyComplete
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form2.resources
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form_nastaveni.resources
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CopyComplete
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\Ignác\Source\Repos\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form2.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Form_nastaveni.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CopyComplete
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\Ignác\OneDrive - Střední průmyslová škola Zlín\SŠ\Informatika\Programovani\Programování_GPD\IgnacBrychta\FormsChess\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form2.resources
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form_nastaveni.resources
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Users\orbit\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\orbit\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CopyComplete
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\FormsChess.exe.config
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\FormsChess.exe
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\FormsChess.pdb
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.AssemblyReference.cache
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.SuggestedBindingRedirects.cache
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form1.resources
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form2.resources
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form2_choosePawnAlternative.resources
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form_nastaveni.resources
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Properties.Resources.resources
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.GenerateResource.cache
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CoreCompileInputs.cache
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.csproj.CopyComplete
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.exe
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.pdb
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form3.resources
+C:\Users\Ignác\Desktop\FormsChess\FormsChess\obj\Debug\FormsChess.Form4.resources
