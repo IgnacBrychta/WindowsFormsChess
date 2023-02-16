@@ -26,21 +26,23 @@ namespace FormsChess
         {
             var nastaveni = new Form_nastaveni();
             nastaveni.ShowDialog();
-            FENnotace_filePath          = nastaveni.FENnotace;
-            atomicMode                  = nastaveni.atomicMode;
-            prohoditBarvy               = nastaveni.prohoditBarvy;
-            odlisnaBilaCernaTextura     = nastaveni.odlisnaBilaCernaTextura;
-            pawn_white_texturePath      = nastaveni.pawn_white_texturePath;
-            rook_white_texturePath      = nastaveni.rook_white_texturePath;
-            knight_white_texturePath    = nastaveni.knight_white_texturePath;
-            bishop_white_texturePath    = nastaveni.bishop_white_texturePath;
-            queen_white_texturePath     = nastaveni.queen_white_texturePath;
-            king_white_texturePath      = nastaveni.king_white_texturePath;
-            ignorovatCasomiru           = nastaveni.ignorovatCasomiru;
-            inteligenceAI               = nastaveni.inteligenceAI;
-            AI_konzole                  = nastaveni.AIkonzole;
-            connectionToChessBoard      = nastaveni.connectionToChessBoard;
-            portName                    = (string)nastaveni.comboBox_SerialPortName.SelectedItem;
+            FENnotace_filePath                   = nastaveni.FENnotace;
+            atomicMode                           = nastaveni.atomicMode;
+            prohoditBarvy                        = nastaveni.prohoditBarvy;
+            odlisnaBilaCernaTextura              = nastaveni.odlisnaBilaCernaTextura;
+            pawn_white_texturePath               = nastaveni.pawn_white_texturePath;
+            rook_white_texturePath               = nastaveni.rook_white_texturePath;
+            knight_white_texturePath             = nastaveni.knight_white_texturePath;
+            bishop_white_texturePath             = nastaveni.bishop_white_texturePath;
+            queen_white_texturePath              = nastaveni.queen_white_texturePath;
+            king_white_texturePath               = nastaveni.king_white_texturePath;
+            ignorovatCasomiru                    = nastaveni.ignorovatCasomiru;
+            inteligenceAI                        = nastaveni.inteligenceAI;
+            AI_konzole                           = nastaveni.AIkonzole;
+            connectionToChessBoard               = nastaveni.connectionToChessBoard;
+            zaXsekundZiskaProtihracJednuSekundu  = nastaveni.casovaDotace;
+            portName                             = (string)nastaveni.comboBox_SerialPortName.SelectedItem;
+            allowBeeping                         = nastaveni.allowBeeping;
             if (nastaveni.comboBox_casomira.SelectedIndex == 1)
             {
                 casomira = Casomira.VZAJEMNA;
