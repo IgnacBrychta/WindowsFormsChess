@@ -257,15 +257,5 @@ namespace FormsChess
         {
             allowBeeping = !allowBeeping;
         }
-
-        private void radioButton_atomic_ano_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void radioButton_atomic_ne_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
