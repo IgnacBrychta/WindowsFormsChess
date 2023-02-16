@@ -18,6 +18,7 @@ Můj nejambicióznější projekt\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dva módy časomíry (fixní délka tahu, vzájemná)\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stockfish integrace (AI)\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atomic mode\
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vrátit tah\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... a další věci\
 \
 Kolik hodin jsem na tom strávil? Nemám tušení už, jsem zoufalý, pomoc\
