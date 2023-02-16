@@ -263,7 +263,7 @@ namespace FormsChess
                     text += new string('0', 4);
                 }
             }
-            text += hodnotaVeProspechBile >= 0 ? '-' : '+';
+            text += hodnotaVeProspechBile >= 0 ? '+' : '-';
             text += Math.Abs(hodnotaVeProspechBile).ToString("00");
             text += hracNaRade == PlayerColor.WHITE ? 'W' : 'B';
             serialPort.Write(text);

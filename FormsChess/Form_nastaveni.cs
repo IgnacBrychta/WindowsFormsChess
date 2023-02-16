@@ -22,7 +22,10 @@ namespace FormsChess
         public bool ignorovatCasomiru = false;
         public int inteligenceAI = 20;
         public bool AIkonzole = false;
-
+        public int casovaDotace = 3;
+        readonly TimeSpan sekunda = new TimeSpan(0, 0, 1);
+        public TimeSpan zvolenyCasNaTah = new TimeSpan(0, 2, 0);
+        public bool allowBeeping = false;
         public Form_nastaveni()
         {
             InitializeComponent();
@@ -210,6 +213,59 @@ namespace FormsChess
                 MessageBox.Show("Není zvolen sériový port pro komunikaci s deskou", "Neplatný port", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 e.Cancel = true;
             }
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            casovaDotace++;
+            textBox2.Text = casovaDotace.ToString() + " s";
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            casovaDotace--;
+            if (casovaDotace <= 0) casovaDotace = 1;
+            textBox2.Text = casovaDotace.ToString() + " s";
+        }
+        private void comboBox_casomira_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_casomira.SelectedIndex == 1)
+            {
+                button3.Enabled = true;
+                button2.Enabled = true;
+                textBox2.Enabled = true;
+            }
+            else
+            {
+                button3.Enabled = false;
+                button2.Enabled = false;
+                textBox2.Enabled = false;
+            }
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            zvolenyCasNaTah += sekunda;
+            textBox3.Text = zvolenyCasNaTah.ToString();
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (zvolenyCasNaTah.TotalSeconds > 1)
+            {
+                zvolenyCasNaTah -= sekunda;
+            }
+            textBox3.Text = zvolenyCasNaTah.ToString();
+        }
+        private void radioButton11_Click(object sender, EventArgs e)
+        {
+            allowBeeping = !allowBeeping;
+        }
+
+        private void radioButton_atomic_ano_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton_atomic_ne_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

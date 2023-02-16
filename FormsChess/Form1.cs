@@ -1,4 +1,4 @@
-﻿#define _Upozorneni
+﻿#define Upozorneni
 #define _ZastavitCasomiru
 #define EnPassant
 using System;
@@ -7,9 +7,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace FormsChess
 {
@@ -22,7 +24,7 @@ namespace FormsChess
         private Button[,] buttonGrid = new Button[ROWS, COLUMNS];
         PlayerColor hracNaRade = !prohoditBarvy ? PlayerColor.BLACK : PlayerColor.WHITE;
         internal static GameState gameState = GameState.SELECT_MOVING_PIECE;
-        Dictionary<int[], Color> changedColors = new Dictionary<int[], Color>();
+        Dictionary<int[], Color> availableMovesOnChessboard = new Dictionary<int[], Color>();
         int selectedPieceRow = -1;
         int selectedPieceColumn = -1;
         bool jeKralHraceNaTahuSachovan = false;
@@ -59,88 +61,24 @@ namespace FormsChess
         bool casomiraPermanentneZastavena = true;
         const bool otevritSouborNotacePoUlozeni = true;
         List<List<char>> figurkyNotaceHry = new List<List<char>>();
-        const int zaXsekundZiskaProtihracJednuSekundu = 3;
+        int zaXsekundZiskaProtihracJednuSekundu = 3;
         bool casovac1_temp = false;
         bool casovac2_temp = false;
-        static CoordinateComparer comparer = new CoordinateComparer();
-        static TileTargetValueComparer tileTargetValueComparer = new TileTargetValueComparer();
-        static PathComparer pathComparer = new PathComparer();
         Process chessEngine;
         string dostupneRosady = "";
-        Dictionary<int[], int> hodnotyPolicek = new Dictionary<int[], int>(comparer)
-        {
-            { new int[] {0, 0 }, 23 },
-            { new int[] {0, 1 }, 24 },
-            { new int[] {0, 2 }, 25 },
-            { new int[] {0, 3 }, 25 },
-            { new int[] {0, 4 }, 25 },
-            { new int[] {0, 5 }, 25 },
-            { new int[] {0, 6 }, 24 },
-            { new int[] {0, 7 }, 23 },
-            { new int[] {1, 0 }, 24 },
-            { new int[] {1, 1 }, 27 },
-            { new int[] {1, 2 }, 29 },
-            { new int[] {1, 3 }, 29 },
-            { new int[] {1, 4 }, 29 },
-            { new int[] {1, 5 }, 29 },
-            { new int[] {1, 6 }, 27 },
-            { new int[] {1, 7 }, 24 },
-            { new int[] {2, 0 }, 25 },
-            { new int[] {2, 1 }, 29 },
-            { new int[] {2, 2 }, 33 },
-            { new int[] {2, 3 }, 33 },
-            { new int[] {2, 4 }, 33 },
-            { new int[] {2, 5 }, 33 },
-            { new int[] {2, 6 }, 29 },
-            { new int[] {2, 7 }, 25 },
-            { new int[] {3, 0 }, 25 },
-            { new int[] {3, 1 }, 29 },
-            { new int[] {3, 2 }, 33 },
-            { new int[] {3, 3 }, 35 },
-            { new int[] {3, 4 }, 35 },
-            { new int[] {3, 5 }, 33 },
-            { new int[] {3, 6 }, 29 },
-            { new int[] {3, 7 }, 25 },
-            { new int[] {4, 0 }, 25 },
-            { new int[] {4, 1 }, 29 },
-            { new int[] {4, 2 }, 33 },
-            { new int[] {4, 3 }, 35 },
-            { new int[] {4, 4 }, 35 },
-            { new int[] {4, 5 }, 33 },
-            { new int[] {4, 6 }, 29 },
-            { new int[] {4, 7 }, 25 },
-            { new int[] {5, 0 }, 25 },
-            { new int[] {5, 1 }, 29 },
-            { new int[] {5, 2 }, 33 },
-            { new int[] {5, 3 }, 33 },
-            { new int[] {5, 4 }, 33 },
-            { new int[] {5, 5 }, 33 },
-            { new int[] {5, 6 }, 29 },
-            { new int[] {5, 7 }, 25 },
-            { new int[] {6, 0 }, 24 },
-            { new int[] {6, 1 }, 27 },
-            { new int[] {6, 2 }, 29 },
-            { new int[] {6, 3 }, 29 },
-            { new int[] {6, 4 }, 29 },
-            { new int[] {6, 5 }, 29 },
-            { new int[] {6, 6 }, 27 },
-            { new int[] {6, 7 }, 24 },
-            { new int[] {7, 0 }, 23 },
-            { new int[] {7, 1 }, 24 },
-            { new int[] {7, 2 }, 25 },
-            { new int[] {7, 3 }, 25 },
-            { new int[] {7, 4 }, 25 },
-            { new int[] {7, 5 }, 25 },
-            { new int[] {7, 6 }, 24 },
-            { new int[] {7, 7 }, 23 }
-        };
         Color[,] puvodniBarvySachovnice = new Color[8, 8];
         internal TimeSpan casPremysleniAI = new TimeSpan();
         internal static char AI_volbaPromocePesaka = ' ';
         Regex FEN_regex;
         Form3 konzole;
-        ChessPiece[,] previousChessBoardState;
+        ChessPiece lastCapturedFig;
+        bool lastCapturedFig_hasMoved;
+        bool lastMovedFig_hasMoved;
+        int lastScoreChange = 0;
+        bool allowBeeping = false;
         #endregion
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool Beep(uint dwFreq, uint dwDuration);
         public Form1()
         {
             InitializeComponent();
@@ -158,7 +96,7 @@ namespace FormsChess
             }
             else
             {
-                ConfigButtons_FEN();
+                ConfigButtonsAndLoadFEN();
             }
             if (odlisnaBilaCernaTextura)
             {
@@ -171,6 +109,7 @@ namespace FormsChess
             NCBbutton_exportNotation.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\export.png"), 70, 70, outline: false);
             NCBbutton_giveUp_Black.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\give up.png"), 50, 70, outline: false);
             NCBbutton_giveUp_White.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\give up.png"), 50, 70, outline: false);
+            NCBbutton_vratitTah.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\return.png"), 50, 50, outline: false);
             NCBbutton_minimaxAlgoritmus.BackgroundImage = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\telephone.png"), 200, 70, outline: false);
             if (atomicMode)
             {
@@ -213,14 +152,14 @@ namespace FormsChess
                 label_vzajemnaCasomira_black.ForeColor = Color.Yellow;
                 label_zbyvajiciCasNaTah.ForeColor = Color.Yellow;
             }
-
+            
             if (AI_konzole)
             {
                 konzole = new Form3();
                 konzole.Show(this);
             }
-
             ChessEngineInit();
+            ZakazatVratitTah();
         }
         private void UlozitBarvyPolicek()
         {
@@ -236,13 +175,15 @@ namespace FormsChess
         {
             return FEN_regex.IsMatch(FENnotace);
         }
-        private void ConfigButtons_FEN()
+        private void ConfigButtonsAndLoadFEN()
         {
+            
             FileStream fs = new FileStream(FENnotace_filePath, FileMode.Open);
             StreamReader sr = new StreamReader(fs);
             string rawFEN = sr.ReadToEnd();
             sr.Close();
             fs.Close();
+            
             if (!JeFENnotaceVeSpravnemFormatu(rawFEN))
             {
                 MessageBox.Show("Soubor FEN notace není ve správném tvaru.", "Chyba", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -437,7 +378,7 @@ namespace FormsChess
                         }
                         else if (boardRow == 7 && boardColumn == 7)
                         {
-                            whiteRightRook = (Rook)(boardFig);
+                            whiteRightRook = (Rook)boardFig;
                         }
                         break;
                     case 'n':
@@ -532,12 +473,6 @@ namespace FormsChess
         private void ChessEngine_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             MessageBox.Show(e.Data, "Výjimka z StockFish", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //throw new Exception(e.Data);
-        }
-        private void ProvestPohyb(int[] source, int[] target)
-        {
-            ProvestKliknuti(source[0], source[1]);
-            ProvestKliknuti(target[0], target[1]);
         }
         private void ProvestPohyb(int sourceRow, int sourceColumn, int targetRow, int targetColumn)
         {
@@ -597,160 +532,6 @@ namespace FormsChess
                     ExecuteMove(move);
                 }
             }));
-        }
-        private void MinimaxAlgoritmus()
-        {
-            int rekurzivniLimit = 3;
-            ChessPiece[,] chessBoardCopy = chessBoard.Clone() as ChessPiece[,];
-            PlayerColor hracNaRadeCopy = hracNaRade;
-            List<int[]> vsechnyPohyby = ChessPiece.GetAllPossibleMoves(ref chessBoardCopy, hracNaRade, out King king, out List<ChessPiece> figurky, false);
-            //Task<KeyValuePair<KeyValuePair<int[], int[]>, int>> task = Minimax_ZiskatNejslibnejsiPolicko(chessBoardCopy, hracNaRadeCopy, hracNaRadeCopy, vsechnyPohyby, tvurciPohybu, rekurzivniLimit, -1, -1, -1, -1);
-            Task<KeyValuePair<List<int[]>, int>> minimax = MinimaxRekurze
-                (chessBoardCopy, figurky, vsechnyPohyby, hracNaRade, hracNaRade, rekurzivniLimit, new KeyValuePair<List<int[]>, int>());
-            minimax.Wait();
-            int[] last = new int[2] { -1, -1 };
-            for (int i = 0; i < 2; i++)
-            {
-                var item = minimax.Result.Key[i];
-                if (last[0] == -1)
-                {
-                    last = item;
-                }
-                else
-                {
-                    ProvestPohyb(last, item);
-                    last[0] = -1;
-                }
-            }
-        }
-        private async Task<KeyValuePair<List<int[]>, int>> MinimaxRekurze(
-            ChessPiece[,] boardCopy, List<ChessPiece> figurky, List<int[]> vsechnyPohyby, PlayerColor barva, PlayerColor puvodniBarva, int hloubkaRekurze, KeyValuePair<List<int[]>, int> aktualniVetev
-            )
-        {
-            await Task.Delay(0);
-            KeyValuePair<List<int[]>, int> vetev; 
-            if (hloubkaRekurze == 0)
-            {
-                return aktualniVetev;
-            }
-            Dictionary<List<int[]>, int> hodnotyRekurze = new Dictionary<List<int[]>, int>(comparer: pathComparer);
-            for (int i = 0; i < figurky.Count; i++)
-            {
-                ChessPiece figurka = figurky[i];
-                for (int j = 0; j < figurka.dostupnePohybyBehemSachu.Count; j++)
-                {
-                    int[] targetMove = figurka.dostupnePohybyBehemSachu[j];
-
-                    ChessPiece buffer = boardCopy[targetMove[0], targetMove[1]];
-                    boardCopy[targetMove[0], targetMove[1]] = boardCopy[figurka.row, figurka.column];
-                    boardCopy[figurka.row, figurka.column] = null;
-
-                    List<int[]> aktualniVetev_Kopie = new List<int[]>();
-
-                    if (!(aktualniVetev.Key?.Count is null))
-                    {
-                        aktualniVetev_Kopie.AddRange(aktualniVetev.Key);
-                    }
-
-                    aktualniVetev_Kopie.Add(new int[] { figurka.row, figurka.column });
-                    aktualniVetev_Kopie.Add(targetMove);
-
-                    int hodnotaSkoku = 0;
-                    King king = ZiskatKrale(barva);
-                    bool jeKralHraceSachovan = King.JeKralSachovan(ref vsechnyPohyby, king.row, king.column);
-                    if (jeKralHraceSachovan)
-                    {
-                        // omezí figurkám pohyby, které by krále nezachránily
-                        bool mohouFigurkyZachranitKrale = MohouFigurkyZachranitKrale(ref boardCopy);
-                        if (king.availableMoves.Count == 0 && !mohouFigurkyZachranitKrale)
-                        {
-                            if (king.playerColor == puvodniBarva) 
-                            {
-                                hodnotaSkoku = int.MinValue;
-                            }
-                            else
-                            {
-                                hodnotaSkoku = int.MaxValue;
-                            }
-                            vetev = new KeyValuePair<List<int[]>, int>(aktualniVetev_Kopie, hodnotaSkoku);
-
-                            return vetev;
-                        }
-                    }
-
-                    hodnotaSkoku = ZiskatHodnotuSkoku(figurka, targetMove[0], targetMove[1], ref boardCopy);// * (barva != puvodniBarva ? -1 : 1);
-                    List<int[]> pohyby = King.GetAllPossibleMoves(ref boardCopy, ZiskatOpacnouBarvu(barva), out King _, out List<ChessPiece> figurkyR, false);
-                    Task<KeyValuePair<List<int[]>, int>> result = MinimaxRekurze
-                        (boardCopy, figurkyR, pohyby, ZiskatOpacnouBarvu(barva), puvodniBarva, hloubkaRekurze - 1, new KeyValuePair<List<int[]>, int> (aktualniVetev_Kopie, hodnotaSkoku));
-                    result.Wait();
-                    hodnotaSkoku += result.Result.Value;
-                    if (hodnotyRekurze.ContainsKey(result.Result.Key))
-                    {
-                        if (hodnotyRekurze[result.Result.Key] < hodnotaSkoku)
-                        {
-                            hodnotyRekurze[result.Result.Key] = hodnotaSkoku;
-                        }
-                    }
-                    else
-                    {
-                        hodnotyRekurze.Add(result.Result.Key, hodnotaSkoku);
-                    }
-
-
-                    boardCopy[figurka.row, figurka.column] = boardCopy[targetMove[0], targetMove[1]];
-                    boardCopy[targetMove[0], targetMove[1]] = buffer;
-                }
-                
-            }
-            if (barva == puvodniBarva)
-            {
-                return hodnotyRekurze.Aggregate((l, r) => l.Value > r.Value ? l : r);
-            }
-            else
-            {
-                return hodnotyRekurze.Aggregate((l, r) => l.Value < r.Value ? l : r);
-            }
-        }
-        private int ZiskatHodnotuSkoku(ChessPiece figurka, int row, int column, ref ChessPiece[,] boardCopy)
-        {
-            List<int[]> pohybyFigurkyNaNovemPoli = figurka.GetAvailableMoves(ref boardCopy, false);
-            double tileValue = 0;
-            if (figurka is King)
-            {
-                if (figurka.playerColor == PlayerColor.WHITE)
-                {
-                    tileValue = 8 - figurka.row;// Math.Sqrt(Math.Pow((figurka.row - 7),2) + Math.Pow((figurka.column - 4),2));
-                }
-                else
-                {
-                    tileValue = figurka.row;// Math.Sqrt(Math.Pow((figurka.row - 0), 2) + Math.Pow((figurka.column - 4), 2));
-                }
-            }
-            else if (figurka is Pawn)
-            {
-                if (figurka.playerColor == PlayerColor.WHITE)
-                {
-                    tileValue = 8 - figurka.row;
-                    if (figurka.column == 0)
-                    {
-                        tileValue *= 0.8;
-                    }
-                }
-                else
-                {
-                    tileValue = figurka.row;
-                    if (figurka.column == 7)
-                    {
-                        tileValue *= 0.8;
-                    }
-                }
-
-            } else
-            {
-                tileValue = hodnotyPolicek[new int[] { row, column }];
-            }
-
-            return (int)tileValue;
         }
         private void Casomira_Start()
         {
@@ -894,7 +675,7 @@ namespace FormsChess
                     else if (buttonNumber == 61)
                     {
                         chessBoard[row, column] = new King(PlayerColor.WHITE, row, column, buttonNumber);
-                        whiteKing = (King)(chessBoard[row, column]);
+                        whiteKing = (King)chessBoard[row, column];
                         controlItem.BackgroundImage = chessBoard[row, column].texture_white;
                     }
                 }
@@ -902,7 +683,7 @@ namespace FormsChess
         }
         private void HighlightPossibleMoves(int row, int column)
         {
-            changedColors.Clear();
+            availableMovesOnChessboard.Clear();
             List<int[]> availableMoves = chessBoard[row, column].dostupnePohybyBehemSachu;
             if (availableMoves.Count == 0 ||
                 !(hracNaRade == PlayerColor.WHITE ? whiteKing : blackKing).jeSachovan
@@ -916,9 +697,8 @@ namespace FormsChess
             }
 #if EnPassant
             // en passant: přidat možnost (políčka)
-            if (chessBoard[row, column] is Pawn)
+            if (chessBoard[row, column] is Pawn pawn)
             {
-                Pawn pawn = (Pawn)chessBoard[row, column];
                 if (pawn.EnPassantCheck(ref chessBoard, out List<int[]> enPassantPohyby))
                 {
                     availableMoves.AddRange(enPassantPohyby);
@@ -932,7 +712,7 @@ namespace FormsChess
             }
             foreach (var item in availableMoves)
             {
-                changedColors.Add(item, buttonGrid[item[0], item[1]].BackColor);
+                availableMovesOnChessboard.Add(item, buttonGrid[item[0], item[1]].BackColor);
                 if (chessBoard[item[0], item[1]] is null)
                 {
                     buttonGrid[item[0], item[1]].BackColor = highlightColor;
@@ -960,10 +740,6 @@ namespace FormsChess
         {
             return hracNaRade == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
         }
-        private PlayerColor ZiskatOpacnouBarvu(PlayerColor playerColor)
-        {
-            return playerColor == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
-        }
         private string HracNaRade_ToString()
         {
             return (hracNaRade == PlayerColor.WHITE) ^ prohoditBarvy ? "Bílá" : "Černá";
@@ -972,17 +748,27 @@ namespace FormsChess
         {
             return playerColor == PlayerColor.WHITE ? whiteKing : blackKing;
         }
+        private void UmoznitVratitTah()
+        {
+            NCBbutton_vratitTah.Enabled = true;
+            NCBbutton_vratitTah.BackColor = Color.Green;
+        }
+        private void ZakazatVratitTah()
+        {
+            NCBbutton_vratitTah.Enabled = false;
+            NCBbutton_vratitTah.BackColor = Color.Red;
+        }
         private void ZmenaHraceNaRade()
         {
             if (gameState == GameState.CHECKMATE)
             {
                 return;
             }
+            UmoznitVratitTah();
             Casomira_StartStop();
             ResetovatZvyrazneniPolicekPriSachu();
             ResetHighlighting();
             HighlightLastMove();
-            //_ = ZjistitJestliRemiza(ZiskatKrale(hracNaRade));
             List<int[]> vsechnyPohyby = ChessPiece.GetAllPossibleMoves(ref chessBoard, hracNaRade, out King king, out List<ChessPiece> _, true);
             // crash
             if (king is null)
@@ -1096,7 +882,7 @@ namespace FormsChess
         private void AktualizovatSkore()
         {
             label_skore.Text = Math.Abs(hodnotaVeProspechBile).ToString();
-            if (hodnotaVeProspechBile <= 0)
+            if (hodnotaVeProspechBile >= 0)
             {
                 label_skore.ForeColor = Color.Black;
                 label_skore.BackColor = Color.White;
@@ -1111,8 +897,9 @@ namespace FormsChess
         private void PricistSkore(int row, int column)
         {
             int pieceValue = chessBoard[row, column].pieceValue;
-            hodnotaVeProspechBile += pieceValue *
-                (chessBoard[row, column].playerColor == PlayerColor.WHITE ? 1 : -1);
+            lastScoreChange = pieceValue *
+                (chessBoard[row, column].playerColor == PlayerColor.BLACK ? 1 : -1);
+            hodnotaVeProspechBile += lastScoreChange;
         }
         private bool ZjistitJestliRemiza(King king, bool suppress = false)
         {
@@ -1148,6 +935,7 @@ namespace FormsChess
                 );
             this.Text = $"Ignácovy šachy: {barva} prohrává. | Readonly mode";
             gameState = GameState.CHECKMATE;
+            ZakazatVratitTah();
         }
         private void Prohra(string text, string caption)
         {
@@ -1170,6 +958,7 @@ namespace FormsChess
             }
             AktualizovatVypisNotace();
             zpusobUkonceniHry = text;
+            ZakazatVratitTah();
         }
         private void Prohra()
         {
@@ -1178,6 +967,7 @@ namespace FormsChess
             {
                 SendGameEnding(HracNaRade_ToString() + " prohrává.");
             }
+            MessageBox.Show(Text, "Prohra");
             this.Text = $"Ignácovy šachy: {HracNaRade_ToString()} prohrává. | Readonly mode";
             gameState = GameState.CHECKMATE;
             vysledekHry = hracNaRade == PlayerColor.BLACK ? "1-0" : "0-1";
@@ -1191,12 +981,13 @@ namespace FormsChess
             }
             AktualizovatVypisNotace();
             zpusobUkonceniHry = "Tlačítko";
+            ZakazatVratitTah();
         }
         private void Remiza(int row, int column)
         {
             Casomira_Stop();
 #if Upozorneni
-            MessageBox.Show($"{(chessBoard[row, column].playerColor == PlayerColor.BLACK ? "Bílý" : "Černý")} král NENÍ šachován a hráč se nemá kam jinam hnout.", "Remíza");
+            MessageBox.Show($"{(chessBoard[row, column].playerColor == PlayerColor.BLACK ^ prohoditBarvy ? "Bílý" : "Černý")} král NENÍ šachován a hráč se nemá kam jinam hnout.", "Remíza");
 #endif
             this.Text = "Ignácovy šachy: Remíza | Readonly mode";
             gameState = GameState.CHECKMATE;
@@ -1213,7 +1004,8 @@ namespace FormsChess
                 notaceHry.Add(" 1/2 1/2");
             }
             AktualizovatVypisNotace();
-            zpusobUkonceniHry = (hracNaRade != PlayerColor.WHITE ? whiteKing : blackKing).ToString() + " není šachován a hráč se nemá kam jinam hnout.";
+            zpusobUkonceniHry = (hracNaRade != PlayerColor.WHITE ^ prohoditBarvy ? whiteKing : blackKing).ToString() + " není šachován a hráč se nemá kam jinam hnout.";
+            ZakazatVratitTah();
         }
         private void Remiza(string textOverride)
         {
@@ -1237,6 +1029,7 @@ namespace FormsChess
             }
             AktualizovatVypisNotace();
             zpusobUkonceniHry = textOverride;
+            ZakazatVratitTah();
         }
         #region Notace
         private string ZiskatFenNotaci()
@@ -1606,6 +1399,13 @@ namespace FormsChess
                 SendChessBoardState();
             }
         }
+        private async Task PlaySoundOnBackground()
+        {
+            await Task.Run(() =>
+            {
+                Beep(9000, 500);
+            });
+        }
         private void ClickOnChessboard(int row, int column)
         {
             bool figurkaVyhozena = false;
@@ -1613,7 +1413,7 @@ namespace FormsChess
             if (gameState == GameState.SELECT_MOVING_PIECE)
             {
                 // Souřadnice původní zvolené figurky (source) jsou neplatné && kliknutí není ve sféře vlivu právě zvolené figurky (target)
-                if (selectedPieceRow == -1 && selectedPieceColumn == -1 || !changedColors.Any(x => x.Key[0] == row && x.Key[1] == column))
+                if (selectedPieceRow == -1 && selectedPieceColumn == -1 || !availableMovesOnChessboard.Any(x => x.Key[0] == row && x.Key[1] == column))
                 {
                     if (chessBoard[row, column] is null)
                     {
@@ -1650,11 +1450,12 @@ namespace FormsChess
                     return;
                 }
                 bool boardChanged = false;
-                foreach (var item in changedColors)
+                foreach (var item in availableMovesOnChessboard)
                 {
                     if (item.Key[0] == row && item.Key[1] == column) // Valid target
                     {
-                        previousChessBoardState = chessBoard.Clone() as ChessPiece[,];
+                        if (allowBeeping) _ = PlaySoundOnBackground();
+
                         ChessPiece figurka_RowColumn = chessBoard[row, column];
                         ChessPiece figurka_selectedRowColumn = chessBoard[selectedPieceRow, selectedPieceColumn];
                         if (!(figurka_RowColumn is null))
@@ -1664,12 +1465,16 @@ namespace FormsChess
                             PridatVyhozenouFigurku(figurka_RowColumn);
                             AktualizovatNotaci(NotationCase.CAPTURE, figurka_selectedRowColumn, figurka_RowColumn);
                             figurkaVyhozena = true;
+                            lastCapturedFig = figurka_RowColumn;
+                            if (lastCapturedFig is Pawn p) lastCapturedFig_hasMoved = p.hasMoved;
+                            else if (lastCapturedFig is Rook r) lastCapturedFig_hasMoved = r.hasMoved;
+                            else if (lastCapturedFig is King k) lastCapturedFig_hasMoved = k.hasMoved;
                         }
                         else
                         {
-                            if (figurka_selectedRowColumn is King)
+                            lastCapturedFig = null;
+                            if (figurka_selectedRowColumn is King castlingKing)
                             {
-                                King castlingKing = (King)figurka_selectedRowColumn;
                                 if (castlingKing.rosadovePohyby.Any(x => x[0] == row && x[1] == column)) // rošáda přes klik na šachovnici
                                 {
                                     if (column == 2)
@@ -1680,13 +1485,17 @@ namespace FormsChess
                                     {
                                         ProvestKratkouRosadu(castlingKing, hracNaRade == PlayerColor.WHITE ? whiteRightRook : blackRightRook);
                                     }
-                                    ResetHighlighting();
+                                    HighlightLastMove();
                                     return; // metody pro provedení rošády se postarají o vše potřebné
                                 }
                             }
                             pocetTahuOdVyhozeni++;
                             AktualizovatNotaci(NotationCase.MOVE, figurka_selectedRowColumn, row, column); // temp
                         }
+                        if (figurka_selectedRowColumn is Pawn p_) lastMovedFig_hasMoved = p_.hasMoved;
+                        else if (figurka_selectedRowColumn is Rook r_) lastMovedFig_hasMoved = r_.hasMoved;
+                        else if (figurka_selectedRowColumn is King k_) lastMovedFig_hasMoved = k_.hasMoved;
+
                         if (figurka_selectedRowColumn is Pawn) pocetTahuOdVyhozeni = 0;
                         if (figurka_RowColumn is Rook rook) rook.hasMoved = true;
                         chessBoard[row, column] = chessBoard[selectedPieceRow, selectedPieceColumn]; // swap piece reference on grid
@@ -1700,9 +1509,8 @@ namespace FormsChess
 
 #if EnPassant
                         // en passant: provést
-                        if (chessBoard[row, column] is Pawn)
+                        if (chessBoard[row, column] is Pawn pawn)
                         {
-                            Pawn pawn = (Pawn)chessBoard[row, column];
                             foreach (var en_pas_pohyby in pawn.enPassantPohyby)
                             {
                                 if (en_pas_pohyby[0] == row && en_pas_pohyby[1] == column)
@@ -1712,8 +1520,8 @@ namespace FormsChess
                                     PridatVyhozenouFigurku(chessBoard[selectedPieceRow, column]);
                                     notaceHry.RemoveAt(notaceHry.Count - 1);
                                     AktualizovatNotaci(NotationCase.CAPTURE, chessBoard[selectedPieceRow, column], pawn);
-                                    chessBoard[selectedPieceRow, column].row = -1;
-                                    chessBoard[selectedPieceRow, column].column = -1;
+                                    lastCapturedFig = chessBoard[selectedPieceRow, column];
+                                    lastCapturedFig_hasMoved = ((Pawn)chessBoard[selectedPieceRow, column]).hasMoved;
                                     chessBoard[selectedPieceRow, column] = null;
                                     buttonGrid[selectedPieceRow, column].BackgroundImage = null;
                                     pocetTahuOdVyhozeni = 0;
@@ -1813,7 +1621,6 @@ namespace FormsChess
             Button senderButton = (Button)sender;
             GetRowAndColumnFromButton(senderButton.Name, out _, out int row, out int column);
             ProvestKliknuti(row, column);
-            
         }
         private void ZamknoutFigurcePohyby(int pieceRow, int pieceColumn)
         {
@@ -1941,7 +1748,6 @@ namespace FormsChess
                     movesOfPiece.RemoveAt(i);
                     i--; // při smazání pohybu nutno změnit index
                 }
-                pohybNezachraniKrale = false;
             }
             return movesOfPiece.Count > 0;
         }
@@ -1994,7 +1800,6 @@ namespace FormsChess
             {
                 NCBbutton_dlouhaBilaRosada.BackColor = Color.Beige;
                 NCBbutton_dlouhaBilaRosada.Enabled = false;
-                //whiteKing.SmazatRosadovePohyby();
             }
 
             if (JeDostupnaRosada(0, 5, 7, blackRightRook, blackKing, FENexport) &&
@@ -2041,7 +1846,6 @@ namespace FormsChess
             {
                 NCBbutton_dlouhaCernaRosada.BackColor = Color.Beige;
                 NCBbutton_dlouhaCernaRosada.Enabled = false;
-                //blackKing.SmazatRosadovePohyby();
             }
 
             if (string.IsNullOrEmpty(dostupneRosady))
@@ -2076,7 +1880,11 @@ namespace FormsChess
         }
         private void ProvestKratkouRosadu(King king, Rook rook)
         {
+            souradnice_pohybFigurky_pocatek[0] = king.row;
+            souradnice_pohybFigurky_pocatek[1] = king.column;
             king.MovePiece(king.row, 6);
+            souradnice_pohybFigurky_cil[0] = king.row;
+            souradnice_pohybFigurky_cil[1] = king.column;
             chessBoard[king.row, 6] = king;
             chessBoard[king.row, 4] = null;
             buttonGrid[king.row, 6].BackgroundImage = king.playerColor == PlayerColor.WHITE ?
@@ -2096,7 +1904,11 @@ namespace FormsChess
         }
         private void ProvestDlouhouRosadu(King king, Rook rook)
         {
+            souradnice_pohybFigurky_pocatek[0] = king.row;
+            souradnice_pohybFigurky_pocatek[1] = king.column;
             king.MovePiece(king.row, 2);
+            souradnice_pohybFigurky_cil[0] = king.row;
+            souradnice_pohybFigurky_cil[1] = king.column;
             chessBoard[king.row, 2] = king;
             chessBoard[king.row, 4] = null;
             buttonGrid[king.row, 2].BackgroundImage = king.playerColor == PlayerColor.WHITE ?
@@ -2315,47 +2127,78 @@ namespace FormsChess
                 gameState = GameState.AI_THINKING;
                 StockFish();
             }
-            
         }
         private void VratitPohyb()
         {
-            if (previousChessBoardState is null)
-            {
-                return;
-            }
+            pocetTahuOdVyhozeni -= 2;
             tah -= 2;
-            if (pocetTahuOdVyhozeni > 0)
+            hodnotaVeProspechBile += lastScoreChange * -1;
+
+            ChessPiece chessPiece = chessBoard[souradnice_pohybFigurky_cil[0], souradnice_pohybFigurky_cil[1]];
+            int GetEnPassantOffset() // if en passant, offset row
             {
-                pocetTahuOdVyhozeni--;
+                if (!(lastCapturedFig is Pawn pawn)) return 0;
+                if (tah - pawn.dvojityPohybBehemTahu_cislo == 0 && (chessPiece.row == 2 || chessPiece.row == 5)) return pawn.row == 3 ? 1 : -1;
+                return 0;
             }
-            souradnice_pohybFigurky_cil[0] = -1;
-            souradnice_pohybFigurky_pocatek[0] = -1;
-            RefreshChessBoardTextures();
-            ZmenaHraceNaRade();
-            previousChessBoardState = null;
-        }
-        private void RefreshChessBoardTextures()
-        {
-            for (int i = 0; i < ROWS; i++)
+            int enpassantOffset = GetEnPassantOffset();
+            ZmenaHraceNaRade(); // change current player back
+            chessPiece.MovePiece(souradnice_pohybFigurky_pocatek[0], souradnice_pohybFigurky_pocatek[1]); // move back
+            buttonGrid[souradnice_pohybFigurky_cil[0] + enpassantOffset, souradnice_pohybFigurky_cil[1]].BackgroundImage =              // show changes
+                lastCapturedFig?.playerColor == PlayerColor.WHITE ? lastCapturedFig.texture_white : lastCapturedFig?.texture_black;
+            chessBoard[souradnice_pohybFigurky_cil[0] + enpassantOffset, souradnice_pohybFigurky_cil[1]] = lastCapturedFig ?? null;
+
+            if (enpassantOffset != 0)
             {
-                for (int j = 0; j < COLUMNS; j++)
+                buttonGrid[souradnice_pohybFigurky_cil[0], souradnice_pohybFigurky_cil[1]].BackgroundImage = null;
+                chessBoard[souradnice_pohybFigurky_cil[0], souradnice_pohybFigurky_cil[1]] = null;
+            }
+
+            if (lastCapturedFig is Pawn p) p.hasMoved = lastCapturedFig_hasMoved;
+            else if (lastCapturedFig is Rook r) r.hasMoved = lastCapturedFig_hasMoved;
+            else if (lastCapturedFig is King k) k.hasMoved = lastCapturedFig_hasMoved;
+
+            buttonGrid[souradnice_pohybFigurky_pocatek[0], souradnice_pohybFigurky_pocatek[1]].BackgroundImage =
+                chessPiece.playerColor == PlayerColor.WHITE ? chessPiece.texture_white : chessPiece.texture_black;
+            chessBoard[souradnice_pohybFigurky_pocatek[0], souradnice_pohybFigurky_pocatek[1]] = chessPiece;
+
+            if (chessPiece is Pawn p_) p_.hasMoved = lastMovedFig_hasMoved;
+            else if (chessPiece is Rook r_) r_.hasMoved = lastMovedFig_hasMoved;
+            else if (chessPiece is King k_) k_.hasMoved = lastMovedFig_hasMoved;
+
+            gameState = GameState.SELECT_MOVING_PIECE;
+            ZakazatVratitTah();
+            ResetHighlighting();
+
+            RemoveLastFigFromPicture();
+        }
+        private void RemoveLastFigFromPicture()
+        {
+            if (lastCapturedFig is null) return;
+            Bitmap obrazek = (Bitmap)pictureBox_vyhozeneFigurky.Image;
+            if (lastCapturedFig.playerColor == PlayerColor.WHITE)
+            {
+                souradniceBilychVyhozenychFigurek.x -= 40;
+                for (int i = 0; i < 35; i++)
                 {
-                    ChessPiece chessPieceCurrent = chessBoard[i, j];
-                    if (chessPieceCurrent?.lastRow == -1 || chessPieceCurrent?.lastColumn == -1 || chessPieceCurrent is null)
+                    for (int j = 0; j < 35; j++)
                     {
-                        continue;
+                        obrazek.SetPixel(souradniceBilychVyhozenychFigurek.x + i, souradniceBilychVyhozenychFigurek.y + j, Color.Transparent);
                     }
-                    ChessPiece chessPiecePrevious = previousChessBoardState[chessPieceCurrent.lastRow, chessPieceCurrent.lastColumn];
-                    chessBoard[chessPieceCurrent.lastRow, chessPieceCurrent.lastColumn] = chessPiecePrevious;
-                    chessBoard[i, j] = null;
-                    chessPiecePrevious.lastRow = -1; chessPiecePrevious.lastColumn = -1;
-                    break;
                 }
             }
-        }
-        private string ProvestTah_PGN(string tah)
-        {
-            return tah;
+            else
+            {
+                souradniceCernychVyhozenychFigurek.x -= 40;
+                for (int i = 0; i < 35; i++)
+                {
+                    for (int j = 0; j < 35; j++)
+                    {
+                        obrazek.SetPixel(souradniceCernychVyhozenychFigurek.x + i, souradniceCernychVyhozenychFigurek.y + j, Color.Transparent);
+                    }
+                }
+            }
+            pictureBox_vyhozeneFigurky.Refresh();
         }
         private void NCBbutton_vratitTah_Click(object sender, EventArgs e)
         {
@@ -2412,12 +2255,6 @@ namespace FormsChess
         {
             lastRow = row; lastColumn = column; row = newRow; column = newColumn;
         }
-        internal void MoveBack()
-        {
-            row = lastRow; column = lastColumn;
-        }
-        public bool IsAtTop() => row == 0;
-        public bool IsAtBottom() => row == Form1.ROWS - 1;
         public bool IsAtLeftEdge() => column == 0;
         public bool IsAtRightEdge() => column == Form1.ROWS - 1;
         internal List<int[]> dostupnePohybyBehemSachu = new List<int[]>();
@@ -2653,12 +2490,12 @@ namespace FormsChess
         internal bool EnPassantCheck(ref ChessPiece[,] chessBoard, out List<int[]> enPassantPohyby)
         {
             // en passant: jestli je proveditelný
+            this.enPassantPohyby.Clear();
             enPassantPohyby = this.enPassantPohyby;
             if (column - 1 >= 0)
             {
-                if (chessBoard[row, column - 1] is Pawn)
+                if (chessBoard[row, column - 1] is Pawn pawn)
                 {
-                    Pawn pawn = (Pawn)chessBoard[row, column - 1];
                     if (this.playerColor != pawn.playerColor &&
                         Form1.tah - pawn.dvojityPohybBehemTahu_cislo == 1)
                     {
@@ -2672,9 +2509,8 @@ namespace FormsChess
 
             if (column + 1 < 8)
             {
-                if (chessBoard[row, column + 1] is Pawn)
+                if (chessBoard[row, column + 1] is Pawn pawn)
                 {
-                    Pawn pawn = (Pawn)chessBoard[row, column + 1];
                     if (this.playerColor != pawn.playerColor &&
                         Form1.tah - pawn.dvojityPohybBehemTahu_cislo == 1)
                     {
@@ -3364,42 +3200,6 @@ namespace FormsChess
             return -1;
         }
     }
-    public class TileTargetValueComparer : IEqualityComparer<KeyValuePair<int[], int[]>>
-    {
-        public bool Equals(KeyValuePair<int[], int[]> x, KeyValuePair<int[], int[]> y)
-        {
-            return x.Key == y.Key && x.Key == y.Key && x.Value == y.Value && x.Value == y.Value;
-        }
-
-        public int GetHashCode(KeyValuePair<int[], int[]> obj)
-        {
-            return -1;
-        }
-    }
-    public class PathComparer : IEqualityComparer<List<int[]>>
-    {
-        CoordinateComparer comp = new CoordinateComparer();
-        public bool Equals(List<int[]> left, List<int[]> right)
-        {
-            if (left.Count != right.Count)
-            {
-                return false;
-            }
-            for (int i = 0; i < left.Count; i++)
-            {
-                if (!comp.Equals(left[i], right[i]))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        public int GetHashCode(List<int[]> left)
-        {
-            return -1;
-        }
-    }
-
     public enum PlayerColor
     {
         WHITE,
