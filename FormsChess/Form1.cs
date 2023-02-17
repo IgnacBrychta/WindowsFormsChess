@@ -760,11 +760,8 @@ namespace FormsChess
         }
         private void ZmenaHraceNaRade()
         {
-            if (gameState == GameState.CHECKMATE)
-            {
-                return;
-            }
-            UmoznitVratitTah();
+            if (gameState == GameState.CHECKMATE) return;
+            if(!atomicMode) UmoznitVratitTah();
             Casomira_StartStop();
             ResetovatZvyrazneniPolicekPriSachu();
             ResetHighlighting();
