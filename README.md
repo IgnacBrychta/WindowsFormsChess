@@ -17,9 +17,9 @@
 * En Passant  
 * Skóre  
 * Rošády  
-* Notace a její export  
-  * FEN
-  * PGN
+* Výpis notace a její export
+  * FEN (Forsyth-Edwards Notation)
+  * PGN (Portable Game Notation)
 * Vlastní vzhled figurek  
  Každá druh figurky může mít vlastní vzhled 
 * Dva módy časomíry  
