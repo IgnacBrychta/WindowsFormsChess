@@ -1,8 +1,7 @@
 # FormsChess
-Můj nejambicióznější projekt\
-Šachy naprogramované v C# běžící díky Forms GUI
-
- Co funguje:\
+Můj nejambicióznější projekt  
+Šachy naprogramované v C# běžící díky Forms GUI  
+ Co funguje:  
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pohyby všech figurek\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Promování pěšáků\
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vyhazování\
