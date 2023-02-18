@@ -1153,7 +1153,7 @@ namespace FormsChess
 
             }
         }
-        private void AktualizovatNotaci(NotationCase situace, ChessPiece figurka1, ChessPiece figurka2)
+        private void AktualizovatNotaci(ChessPiece figurka1, ChessPiece figurka2)
         {
             string aktualniPohyb = Case_capture(figurka1, figurka2);
 
@@ -1280,7 +1280,7 @@ namespace FormsChess
                 return figurka.notationLetter + TranslateCoordinates(-1, figurka.column) + TranslateCoordinates(newRow, newColumn);
             }
         }
-        private void AktualizovatNotaci(NotationCase situace, ChessPiece figurka1, int newRow, int newColumn)
+        private void AktualizovatNotaci(ChessPiece figurka1, int newRow, int newColumn)
         {
             string aktualniPohyb = Case_move(figurka1, newRow, newColumn);
 
@@ -1460,7 +1460,7 @@ namespace FormsChess
                             pocetTahuOdVyhozeni = 0;
                             PricistSkore(row, column);
                             PridatVyhozenouFigurku(figurka_RowColumn);
-                            AktualizovatNotaci(NotationCase.CAPTURE, figurka_selectedRowColumn, figurka_RowColumn);
+                            AktualizovatNotaci(figurka_selectedRowColumn, figurka_RowColumn);
                             figurkaVyhozena = true;
                             lastCapturedFig = figurka_RowColumn;
                             if (lastCapturedFig is Pawn p) lastCapturedFig_hasMoved = p.hasMoved;
@@ -1487,7 +1487,7 @@ namespace FormsChess
                                 }
                             }
                             pocetTahuOdVyhozeni++;
-                            AktualizovatNotaci(NotationCase.MOVE, figurka_selectedRowColumn, row, column); // temp
+                            AktualizovatNotaci(figurka_selectedRowColumn, row, column); // temp
                         }
                         if (figurka_selectedRowColumn is Pawn p_) lastMovedFig_hasMoved = p_.hasMoved;
                         else if (figurka_selectedRowColumn is Rook r_) lastMovedFig_hasMoved = r_.hasMoved;
@@ -1516,7 +1516,7 @@ namespace FormsChess
                                     PricistSkore(selectedPieceRow, column);
                                     PridatVyhozenouFigurku(chessBoard[selectedPieceRow, column]);
                                     notaceHry.RemoveAt(notaceHry.Count - 1);
-                                    AktualizovatNotaci(NotationCase.CAPTURE, chessBoard[selectedPieceRow, column], pawn);
+                                    AktualizovatNotaci(chessBoard[selectedPieceRow, column], pawn);
                                     lastCapturedFig = chessBoard[selectedPieceRow, column];
                                     lastCapturedFig_hasMoved = ((Pawn)chessBoard[selectedPieceRow, column]).hasMoved;
                                     chessBoard[selectedPieceRow, column] = null;
@@ -3215,14 +3215,6 @@ namespace FormsChess
         ROOK,
         BISHOP,
         KNIGHT
-    }
-    public enum NotationCase
-    {
-        MOVE,
-        CAPTURE,
-        CASTLING,
-        CHECK,
-        CHECKMATE
     }
     public enum WhitePiecesChars
     {
