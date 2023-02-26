@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Threading;
-using System.Runtime.InteropServices;
 using System.Linq;
 
 namespace FormsChess
@@ -13,32 +12,72 @@ namespace FormsChess
     public partial class Form1
     {
         const int columnsOfArduinoDisplay = 16;
+        const int numOfDiodes = 256;
+        private void CheckIfReceivedMoveValid(int row, int column)
+        {
+            if(!availableMovesOnChessboard.Any(x => x.Key[0] == row && x.Key[1] == column))
+            {
+                SendInvalidMoveData(row, column);
+                return;
+            }
+            ProvestKliknuti(row, column, true);
+        }
+        private void SendInvalidMoveData(int invalidRow, int invalidColumn)
+        {
+            BitArray bitArray = new BitArray(numOfDiodes);
+            int bitArrayIndex = 0;
+            // set chessboard red
+            for (int i = 0; i < ROWS; i++)
+            {
+                for (int j = 0; j < COLUMNS; j++)
+                {
+                    bitArray[bitArrayIndex] = !(chessBoard[i, j] is null);
+                    bitArrayIndex++;
+                    byte colorComb = GetByteCombinationOfColor(sachovaciBarva);
+                    for (int k = 0; k < 3; k++)
+                    {
+                        bool bit = GetBitFromByte(colorComb, k);
+                        bitArray.Set(bitArrayIndex, bit);
+                        bitArrayIndex++;
+                    }
+                }
+            }
+            // set invalid tile blank
+            bitArrayIndex = invalidRow * ROWS + invalidColumn;
+            for (int k = 0; k < 3; k++)
+            {
+                bool bit = GetBitFromByte(GetByteCombinationOfColor(chessBoardColor1), k);
+                bitArray.Set(bitArrayIndex, bit);
+                bitArrayIndex++;
+            }
+            serialPort.Write(new byte[] { 0b00000001 }, 0, 1);
+            byte[] byteArray = BitArrayToByteArray(bitArray);
+            serialPort.Write(byteArray, 0, 32);
+        }
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string serialPortData = serialPort.ReadExisting();
             Thread.Sleep(5);
             string[] serialPortData_Lines = serialPortData.Split(serialPort.NewLine.ToCharArray());
-            if(serialPortData.StartsWith("piece moved"))
+            if (serialPortData.StartsWith("piece moved"))
             {
-                string[] movedPieceIndexes = serialPortData_Lines[1].Split(' ');
-                int index1 = int.Parse(movedPieceIndexes[0]);
-                int index2 = int.Parse(movedPieceIndexes[1]);
-                string simulatedButtonClickName_1 = $"button{index1 + 1}";
-                string simulatedButtonClickName_2 = $"button{index2 + 1}";
-                GetRowAndColumnFromButton(simulatedButtonClickName_1, out _, out int row_1, out int column_1);
-                GetRowAndColumnFromButton(simulatedButtonClickName_2, out _, out int row_2, out int column_2);
-                ExecuteMove(row_1, column_1, row_2, column_2);
+                int index = int.Parse(serialPortData_Lines[1]);
+                string simulatedButtonClickName = $"button{index + 1}";
+                GetRowAndColumnFromButton(simulatedButtonClickName, out _, out int row, out int column);
+                CheckIfReceivedMoveValid(row, column);
             }
-            else if(serialPortData.StartsWith("button pressed"))
+            else if (serialPortData.StartsWith("button pressed"))
             {
-                switch(serialPortData_Lines[1])
+                while(gameState == GameState.AI_THINKING) { Thread.Sleep(5); }
+
+                switch (serialPortData_Lines[1])
                 {
                     case "1":
-                        if(hracNaRade != PlayerColor.WHITE) { return; }
+                        if (hracNaRade != PlayerColor.WHITE) { return; }
                         if (gameState == GameState.CHECKMATE) { return; }
                         Invoke(new Action(() =>
                         {
-                            Prohra();
+                            Prohra("Hráč se vzdal.", "Prohra");
                         }));
                         break;
                     case "2":
@@ -46,7 +85,7 @@ namespace FormsChess
                         if (gameState == GameState.CHECKMATE) { return; }
                         Invoke(new Action(() =>
                         {
-                            Prohra();
+                            Prohra("Hráč se vzdal.", "Prohra");
                         }));
                         break;
                     case "3":
@@ -63,13 +102,18 @@ namespace FormsChess
                         if (gameState == GameState.CHECKMATE) { return; }
                         NCBbutton_minimaxAlgoritmus_Click(false, new EventArgs());
                         break;
+                    case "6":
+                        if (gameState == GameState.CHECKMATE) { return; }
+                        if(!NCBbutton_vratitTah.Enabled) { return; }
+                        VratitPohyb();
+                        break;
                 }
             }
         }
         private void SendGameEnding(string message)
         {
-            while(message.Length < columnsOfArduinoDisplay) { message += ' '; }
-            if(message.Length > columnsOfArduinoDisplay) { message = message.Substring(0, columnsOfArduinoDisplay); }
+            while (message.Length < columnsOfArduinoDisplay) { message += ' '; }
+            if (message.Length > columnsOfArduinoDisplay) { message = message.Substring(0, columnsOfArduinoDisplay); }
             message = RemoveDiacriticsFromString(message);
             serialPort.Write(new byte[] { 0b0000_0100 }, 0, 1);
             serialPort.Write(message);
@@ -83,7 +127,7 @@ namespace FormsChess
         {
             ChessPiece tile = chessBoard[row1, column1];
 
-            if(tile is null || tile?.playerColor != hracNaRade)
+            if (tile is null || tile?.playerColor != hracNaRade)
             {
                 ProvestKliknuti(row2, column2, false);
                 ProvestKliknuti(row1, column1, true);
@@ -113,7 +157,7 @@ namespace FormsChess
                 int bitIndex = i * 8;
                 for (int j = 0; j < 4; j++)
                 {
-                    
+
                     bool bit1 = bits.Get(bitIndex + j);
                     bool bit2 = bits.Get(bitIndex + 7 - j);
                     bits.Set(bitIndex + j, bit2);
@@ -152,7 +196,7 @@ namespace FormsChess
         }
         private BitArray GetChessBoardState()
         {
-            BitArray bitArray = new BitArray(256);
+            BitArray bitArray = new BitArray(numOfDiodes);
             int bitArrayIndex = 0;
 
 #if SwapEverySecondRow
@@ -194,9 +238,7 @@ namespace FormsChess
                     bitArrayIndex += 36;
                 }
             }
-#endif
-
-#if !SwapEverySecondRow
+#else
             for (int i = 0; i < ROWS; i++)
             {
                 for (int j = 0; j < COLUMNS; j++)
@@ -231,7 +273,7 @@ namespace FormsChess
             if (casomira == Casomira.VYCHOZI)
             {
                 TimeSpan remainingTime = maximalniDelkaTahu - casNaTah;
-                if(remainingTime > TimeSpan.Zero)
+                if (remainingTime > TimeSpan.Zero)
                 {
                     text += remainingTime.Minutes.ToString("00");
                     text += remainingTime.Seconds.ToString("00");
@@ -244,7 +286,7 @@ namespace FormsChess
             }
             else
             {
-                if(casNaTah_bila > TimeSpan.Zero)
+                if (casNaTah_bila > TimeSpan.Zero)
                 {
                     text += casNaTah_bila.Minutes.ToString("00");
                     text += casNaTah_bila.Seconds.ToString("00");
@@ -253,7 +295,7 @@ namespace FormsChess
                 {
                     text += new string('0', 4);
                 }
-                if(casNaTah_cerna > TimeSpan.Zero)
+                if (casNaTah_cerna > TimeSpan.Zero)
                 {
                     text += casNaTah_cerna.Minutes.ToString("00");
                     text += casNaTah_cerna.Seconds.ToString("00");
@@ -298,7 +340,7 @@ namespace FormsChess
             {
                 return 0b110;
             }
-            else if(color == highlightColorCapture)
+            else if (color == highlightColorCapture)
             {
                 return 0b011;
             }

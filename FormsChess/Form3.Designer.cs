@@ -53,7 +53,6 @@
             this.Controls.Add(this.richTextBox1);
             this.Name = "Form3";
             this.Text = "Konzole";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form3_FormClosing);
             this.ResumeLayout(false);
 
         }

@@ -34,7 +34,6 @@ namespace FormsChess
                 ExportNotace_FEN();
             }
 
-
             
             if (casomira != Casomira.VYCHOZI)
             {

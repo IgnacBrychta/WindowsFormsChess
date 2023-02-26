@@ -1,4 +1,4 @@
-﻿#define Upozorneni
+﻿#define _Upozorneni
 #define _ZastavitCasomiru
 #define EnPassant
 using System;
@@ -76,6 +76,8 @@ namespace FormsChess
         bool lastMovedFig_hasMoved;
         int lastScoreChange = 0;
         bool allowBeeping = false;
+        const int defaultScreenWidth = 1288;
+        static internal int imageSizeFactor;
         #endregion
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool Beep(uint dwFreq, uint dwDuration);
@@ -83,6 +85,7 @@ namespace FormsChess
         {
             InitializeComponent();
             NastaveniSachu();
+            imageSizeFactor = (int)Math.Round((double)Width / defaultScreenWidth);
             pictureBox_vyhozeneFigurky.Image = new Bitmap(600, 75);
             FEN_regex = new Regex(
                 "\\s*^(((?:[rnbqkpRNBQKP1-8]+\\/){7})[rnbqkpRNBQKP1-8]+)\\s([b|w])\\s([K|Q|k|q|-]{1,4})\\s(-|[a-h][1-8])\\s(\\d+\\s\\d+)$"
@@ -110,7 +113,7 @@ namespace FormsChess
             NCBbutton_giveUp_Black.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\give up.png"), 50, 70, outline: false);
             NCBbutton_giveUp_White.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\give up.png"), 50, 70, outline: false);
             NCBbutton_vratitTah.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\return.png"), 50, 50, outline: false);
-            NCBbutton_minimaxAlgoritmus.BackgroundImage = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\telephone.png"), 200, 70, outline: false);
+            NCBbutton_minimaxAlgoritmus.BackgroundImage = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\telephone.png"), 200 * imageSizeFactor, 70 * imageSizeFactor, outline: false);
             if (atomicMode)
             {
                 pictureBox_atomic1.Image = ChessPiece.ScaleImage(Image.FromFile(@"..\..\textures\default\atomic.png"), 50, 50, outline: false);
@@ -983,9 +986,7 @@ namespace FormsChess
         private void Remiza(int row, int column)
         {
             Casomira_Stop();
-#if Upozorneni
             MessageBox.Show($"{(chessBoard[row, column].playerColor == PlayerColor.BLACK ^ prohoditBarvy ? "Bílý" : "Černý")} král NENÍ šachován a hráč se nemá kam jinam hnout.", "Remíza");
-#endif
             this.Text = "Ignácovy šachy: Remíza | Readonly mode";
             gameState = GameState.CHECKMATE;
             if (connectionToChessBoard)
@@ -1007,9 +1008,7 @@ namespace FormsChess
         private void Remiza(string textOverride)
         {
             Casomira_Stop();
-#if Upozorneni
             MessageBox.Show(textOverride, "Remíza");
-#endif
             this.Text = "Ignácovy šachy: Remíza. | Readonly mode";
             gameState = GameState.CHECKMATE;
             if (connectionToChessBoard)
@@ -1508,23 +1507,21 @@ namespace FormsChess
                         // en passant: provést
                         if (chessBoard[row, column] is Pawn pawn)
                         {
-                            foreach (var en_pas_pohyby in pawn.enPassantPohyby)
+                            if (pawn.enPassantPohyby.Count != 0 && pawn.enPassantPohyby[0][0] == row && pawn.enPassantPohyby[0][1] == column)
                             {
-                                if (en_pas_pohyby[0] == row && en_pas_pohyby[1] == column)
-                                {
-                                    // řádek ze zvolení source, nikde jinde se selectedPieceRow a column nepotkají
-                                    PricistSkore(selectedPieceRow, column);
-                                    PridatVyhozenouFigurku(chessBoard[selectedPieceRow, column]);
-                                    notaceHry.RemoveAt(notaceHry.Count - 1);
-                                    AktualizovatNotaci(chessBoard[selectedPieceRow, column], pawn);
-                                    lastCapturedFig = chessBoard[selectedPieceRow, column];
-                                    lastCapturedFig_hasMoved = ((Pawn)chessBoard[selectedPieceRow, column]).hasMoved;
-                                    chessBoard[selectedPieceRow, column] = null;
-                                    buttonGrid[selectedPieceRow, column].BackgroundImage = null;
-                                    pocetTahuOdVyhozeni = 0;
-                                    break;
-                                }
+                                // řádek ze zvolení source, nikde jinde se selectedPieceRow a column nepotkají
+                                PricistSkore(selectedPieceRow, column);
+                                PridatVyhozenouFigurku(chessBoard[selectedPieceRow, column]);
+                                notaceHry.RemoveAt(notaceHry.Count - 1);
+                                AktualizovatNotaci(chessBoard[selectedPieceRow, column], pawn);
+                                lastCapturedFig = chessBoard[selectedPieceRow, column];
+                                lastCapturedFig_hasMoved = ((Pawn)chessBoard[selectedPieceRow, column]).hasMoved;
+                                chessBoard[selectedPieceRow, column] = null;
+                                buttonGrid[selectedPieceRow, column].BackgroundImage = null;
+                                pocetTahuOdVyhozeni = 0;
+                                break;
                             }
+                            
                         }
 #endif
 
@@ -2233,6 +2230,8 @@ namespace FormsChess
         internal const int outlineWidth = 6; // outlineWidth = circle diameter
         internal static Color outlineColor = Color.FromArgb(128, Color.Black);
         internal static string directory = Directory.GetCurrentDirectory();
+        protected const int imageSize = 70;
+        protected int rescaledImageSize = imageSize * Form1.imageSizeFactor;
         internal PlayerColor playerColor;
         internal abstract int pieceValue { get; }
         internal abstract Image texture_black { get; set; }
@@ -2404,8 +2403,8 @@ namespace FormsChess
         public Pawn(PlayerColor playerColor, int x, int y, int buttonNumber)
         {
             Image image = Image.FromFile(texturePath);
-            texture_black = ScaleImage(image, 70, 70, false ^ Form1.prohoditBarvy);
-            texture_white = ScaleImage(image, 70, 70, true ^ Form1.prohoditBarvy);
+            texture_black = ScaleImage(image, rescaledImageSize, rescaledImageSize, false ^ Form1.prohoditBarvy);
+            texture_white = ScaleImage(image, rescaledImageSize, rescaledImageSize, true ^ Form1.prohoditBarvy);
             image.Dispose();
             this.playerColor = playerColor;
             this.row = x;
@@ -2619,8 +2618,8 @@ namespace FormsChess
         internal override string notationLetter { get => "R"; }
         public Rook(PlayerColor playerColor, int x, int y, int buttonNumber)
         {
-            texture_black = ScaleImage(Image.FromFile(texturePath), 70, 70, false ^ Form1.prohoditBarvy);
-            texture_white = ScaleImage(Image.FromFile(texturePath), 70, 70, true ^ Form1.prohoditBarvy);
+            texture_black = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, false ^ Form1.prohoditBarvy);
+            texture_white = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, true ^ Form1.prohoditBarvy);
             this.playerColor = playerColor;
             this.row = x;
             this.column = y;
@@ -2764,8 +2763,8 @@ namespace FormsChess
         internal override string notationLetter { get => "N"; }
         public Knight(PlayerColor playerColor, int x, int y, int buttonNumber)
         {
-            texture_black = ScaleImage(Image.FromFile(texturePath), 70, 70, false ^ Form1.prohoditBarvy);
-            texture_white = ScaleImage(Image.FromFile(texturePath), 70, 70, true ^ Form1.prohoditBarvy);
+            texture_black = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, false ^ Form1.prohoditBarvy);
+            texture_white = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, true ^ Form1.prohoditBarvy);
             this.playerColor = playerColor;
             this.row = x;
             this.column = y;
@@ -2814,14 +2813,13 @@ namespace FormsChess
         internal override string notationLetter { get => "B"; }
         public Bishop(PlayerColor playerColor, int x, int y, int buttonNumber)
         {
-            texture_black = ScaleImage(Image.FromFile(texturePath), 70, 70, false ^ Form1.prohoditBarvy);
-            texture_white = ScaleImage(Image.FromFile(texturePath), 70, 70, true ^ Form1.prohoditBarvy);
+            texture_black = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, false ^ Form1.prohoditBarvy);
+            texture_white = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, true ^ Form1.prohoditBarvy);
             this.playerColor = playerColor;
             this.row = x;
             this.column = y;
             this.buttonNumber = buttonNumber;
         }
-
         public override List<int[]> GetAvailableMoves(ref ChessPiece[,] chessBoard, bool allTiles)
         {
             List<int[]> availableMoves = new List<int[]>();
@@ -2881,14 +2879,13 @@ namespace FormsChess
         internal override string notationLetter { get => "Q"; }
         public Queen(PlayerColor playerColor, int x, int y, int buttonNumber)
         {
-            texture_black = ScaleImage(Image.FromFile(texturePath), 70, 70, false ^ Form1.prohoditBarvy);
-            texture_white = ScaleImage(Image.FromFile(texturePath), 70, 70, true ^ Form1.prohoditBarvy);
+            texture_black = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, false ^ Form1.prohoditBarvy);
+            texture_white = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, true ^ Form1.prohoditBarvy);
             this.playerColor = playerColor;
             this.row = x;
             this.column = y;
             this.buttonNumber = buttonNumber;
         }
-
         public override List<int[]> GetAvailableMoves(ref ChessPiece[,] chessBoard, bool allTiles)
         {
             List<int[]> availableMoves = new List<int[]>();
@@ -3066,8 +3063,8 @@ namespace FormsChess
         internal List<int[]> rosadovePohyby = new List<int[]>();
         public King(PlayerColor playerColor, int x, int y, int buttonNumber)
         {
-            texture_black = ScaleImage(Image.FromFile(texturePath), 70, 70, false ^ Form1.prohoditBarvy);
-            texture_white = ScaleImage(Image.FromFile(texturePath), 70, 70, true ^ Form1.prohoditBarvy);
+            texture_black = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, false ^ Form1.prohoditBarvy);
+            texture_white = ScaleImage(Image.FromFile(texturePath), rescaledImageSize, rescaledImageSize, true ^ Form1.prohoditBarvy);
             this.playerColor = playerColor;
             this.row = x;
             this.column = y;
@@ -3191,7 +3188,6 @@ namespace FormsChess
         {
             return coords1[0] == coords2[0] && coords1[1] == coords2[1];
         }
-
         public int GetHashCode(int[] obj)
         {
             return -1;
