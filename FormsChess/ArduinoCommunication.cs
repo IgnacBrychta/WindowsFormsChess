@@ -1,4 +1,6 @@
 ﻿#define HEZKY_VYPIS
+#define SERIAL_PORT_DEBUG
+
 using System;
 using System.Collections;
 using System.Drawing;
@@ -56,11 +58,16 @@ namespace FormsChess
         }
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string serialPortData = serialPort.ReadExisting();
             Thread.Sleep(5);
+            string serialPortData = serialPort.ReadExisting();
+#if SERIAL_PORT_DEBUG
+            MessageBox.Show(serialPortData, "Serial Port: received data");
+#endif
+            //Thread.Sleep(5);
             string[] serialPortData_Lines = serialPortData.Split(serialPort.NewLine.ToCharArray());
             if (serialPortData.StartsWith("piece moved"))
             {
+                return;
                 int index = int.Parse(serialPortData_Lines[1]);
                 string simulatedButtonClickName = $"button{index + 1}";
                 GetRowAndColumnFromButton(simulatedButtonClickName, out _, out int row, out int column);
@@ -123,21 +130,6 @@ namespace FormsChess
             byte[] tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(message);
             return System.Text.Encoding.UTF8.GetString(tempBytes);
         }
-        private void ExecuteMove(int row1, int column1, int row2, int column2)
-        {
-            ChessPiece tile = chessBoard[row1, column1];
-
-            if (tile is null || tile?.playerColor != hracNaRade)
-            {
-                ProvestKliknuti(row2, column2, false);
-                ProvestKliknuti(row1, column1, true);
-            }
-            else// if(tile2 is null || tile2?.playerColor != hracNaRade)
-            {
-                ProvestKliknuti(row1, column1, false);
-                ProvestKliknuti(row2, column2, true);
-            }
-        }
         private void SendChessBoardState()
         {
             if (!serialPort.IsOpen)
@@ -191,7 +183,7 @@ namespace FormsChess
                 bits += bitArray[i] ? '1' : '0';
             }
 #endif
-            Clipboard.SetText(bits);
+            //Clipboard.SetText(bits);
             MessageBox.Show(bits);
         }
         private BitArray GetChessBoardState()
@@ -269,7 +261,6 @@ namespace FormsChess
         {
             serialPort.Write(new byte[] { 0b0000_0010 }, 0, 1);
             string text = string.Empty;
-            BitArray bitArray = GetChessBoardState();
             if (casomira == Casomira.VYCHOZI)
             {
                 TimeSpan remainingTime = maximalniDelkaTahu - casNaTah;

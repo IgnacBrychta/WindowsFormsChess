@@ -19,6 +19,7 @@ namespace FormsChess
         public string bishop_white_texturePath = string.Empty;
         public string queen_white_texturePath = string.Empty;
         public string king_white_texturePath = string.Empty;
+        private int nacteneTextury = 0;
         public bool ignorovatCasomiru = false;
         public int inteligenceAI = 20;
         public bool AIkonzole = false;
@@ -58,6 +59,11 @@ namespace FormsChess
         }
         private void button_OK_Click(object sender, EventArgs e)
         {
+            if(nacteneTextury > 6 && prohoditBarvy)
+            {
+                MessageBox.Show("Při přepisování textur obou stran nebude na parametr \"Prohodit barvy\" brán zřetel, jelikož toto určují právě textury.", "Upozornění", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                prohoditBarvy = false;
+            }
             this.Close();
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -78,7 +84,7 @@ namespace FormsChess
             };
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                if (TryUpdateTextures(dialog.FileName, out int nacteneTextury))
+                if (TryUpdateTextures(dialog.FileName, out nacteneTextury))
                 {
                     MessageBox.Show($"Načteno {nacteneTextury} z celkem {(odlisnaBilaCernaTextura ? 12 : 6)} textur.", "Načteno", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

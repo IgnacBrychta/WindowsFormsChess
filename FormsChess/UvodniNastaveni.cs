@@ -9,7 +9,7 @@ namespace FormsChess
         public static bool atomicMode = false;
         private string FENnotace_filePath = string.Empty;
         private Casomira casomira = Casomira.VYCHOZI;
-        private bool odlisnaBilaCernaTextura = false;
+        public static bool odlisnaBilaCernaTextura = false;
         public static string pawn_white_texturePath = string.Empty;
         public static string rook_white_texturePath = string.Empty;
         public static string knight_white_texturePath = string.Empty;
