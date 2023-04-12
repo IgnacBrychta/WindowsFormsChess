@@ -52,6 +52,7 @@
 * ### Ignácovy šachy 3D  
 	* #### Šachovnice v reálném životě
 	 ![Fyzická šachovnice][led-matrix]
+	 ![Box pro elektroniku pro šachovnici][skatule]
 	* Když hráč fyzicky zvedne figurku, zobrazí se mu dostupné tahy na svítící šachovnici
 	* Fyzická tlačítka pro vzdání se, remízu, přítele na telefonu, restart hry
 	* V případě hry sám se sebou lze jako protihráče vyzvat [AI][stockfish] („přítel na telefonu"), která zvládne fyzicky pohyb na šachovnici provést
@@ -70,7 +71,8 @@
 Vývoj začal 29.11.2022 a pokračuje doposud, 18.2.2023. Kdyby se to celkem stihlo do tří a půl měsíců, bylo by to super. Celkem tomuto projektu bylo věnováno možná tak 200, 250, 300 hodin? Kdo ví už honestly.
 
 [uvodni-fotka]: https://media.discordapp.net/attachments/1076565079333548184/1076565116658663495/2023-02-18_19_04_55-Ignacovy_sachy__Na_rade_je_Cerna..png
-[led-matrix]: https://media.discordapp.net/attachments/572858382793310238/1067391638671982602/IMG_20230121_143202.jpg
+[led-matrix]: https://media.discordapp.net/attachments/1076565079333548184/1095820335032570016/IMG_20230412_231720.jpg?width=683&height=676
+[skatule]: https://media.discordapp.net/attachments/1076565079333548184/1095820334785110066/IMG_20230412_231757.jpg?width=583&height=676
 [fen-chesscom]: https://www.chess.com/terms/fen-chess
 [pgn-chesscom]: https://www.chess.com/terms/chess-pgn
 [nastaveni]: https://cdn.discordapp.com/attachments/1076565079333548184/1076574207607066624/2023-02-18_19_41_21-Nastaveni.png
