@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace FormsChess
 {
-    public partial class Form2 : Form
+    public partial class NameInputWindow : Form
     {
         public string jmeno = string.Empty;
         bool eraseString = true;
-        public Form2()
+        public NameInputWindow()
         {
             InitializeComponent();
         }

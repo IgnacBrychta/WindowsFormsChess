@@ -6,7 +6,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace FormsChess
 {
-    public partial class Form_nastaveni : Form
+    public partial class SettingsWindow : Form
     {
         public string FENnotace = string.Empty;
         public bool atomicMode = false;
@@ -27,7 +27,7 @@ namespace FormsChess
         readonly TimeSpan sekunda = new TimeSpan(0, 0, 1);
         public TimeSpan zvolenyCasNaTah = new TimeSpan(0, 2, 0);
         public bool allowBeeping = false;
-        public Form_nastaveni()
+        public SettingsWindow()
         {
             InitializeComponent();
             comboBox_casomira.SelectedIndex = 0;

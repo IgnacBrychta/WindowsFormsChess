@@ -1,6 +1,6 @@
 ﻿namespace FormsChess
 {
-    partial class Form2_choosePawnAlternative
+    partial class ChoosePawnAlternativeWindow
     {
         /// <summary>
         /// Required designer variable.

@@ -2,9 +2,9 @@
 
 namespace FormsChess
 {
-    public partial class Form4 : Form
+    public partial class NotationExportWindow : Form
     {
-        public Form4()
+        public NotationExportWindow()
         {
             InitializeComponent();
         }

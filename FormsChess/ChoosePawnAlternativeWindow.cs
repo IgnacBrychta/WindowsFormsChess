@@ -3,10 +3,10 @@ using System.Windows.Forms;
 
 namespace FormsChess
 {
-    public partial class Form2_choosePawnAlternative : Form
+    public partial class ChoosePawnAlternativeWindow : Form
     {
         bool figurkaZvolena = false;
-        public Form2_choosePawnAlternative()
+        public ChoosePawnAlternativeWindow()
         {
             InitializeComponent();
         }

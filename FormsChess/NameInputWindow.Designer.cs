@@ -1,6 +1,6 @@
 ﻿namespace FormsChess
 {
-    partial class Form2
+    partial class NameInputWindow
     {
         /// <summary>
         /// Required designer variable.

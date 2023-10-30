@@ -1,6 +1,6 @@
 ﻿namespace FormsChess
 {
-    partial class Form_nastaveni
+    partial class SettingsWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_nastaveni));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsWindow));
             this.button_OK = new System.Windows.Forms.Button();
             this.textBox_slozkaTextur = new System.Windows.Forms.TextBox();
             this.button_zvolitTextury = new System.Windows.Forms.Button();

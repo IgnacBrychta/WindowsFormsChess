@@ -2,9 +2,9 @@
 
 namespace FormsChess
 {
-    public partial class Form3 : Form
+    public partial class ConsoleWindow : Form
     {
-        public Form3()
+        public ConsoleWindow()
         {
             InitializeComponent();
         }

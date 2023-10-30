@@ -1,6 +1,6 @@
 ﻿namespace FormsChess
 {
-    partial class Form4
+    partial class NotationExportWindow
     {
         /// <summary>
         /// Required designer variable.

@@ -37,7 +37,7 @@ namespace FormsChess
         readonly Color pohybFigurky_cil = Color.FromArgb(255, 59, 174, 26); 
         int[] souradnice_pohybFigurky_pocatek = new int[] { -1, -1 };
         int[] souradnice_pohybFigurky_cil = new int[] { -1, -1 };
-        const int pocetTahuBezVyhozeniDoRemizy = 100; // 100 půltahů / 2 = 50 celotahů
+        const int pocetTahuBezVyhozeniDoRemizy = 40; // 40 půltahů / 2 = 20 celotahů
         const string prefixTlacitekMimoSachovnici = "NCB";
         int pocetTahuOdVyhozeni = 0;
         Rook whiteLeftRook = null;
@@ -69,7 +69,7 @@ namespace FormsChess
         internal TimeSpan casPremysleniAI = new TimeSpan();
         internal static char AI_volbaPromocePesaka = ' ';
         readonly Regex FEN_regex;
-        readonly Form3 konzole;
+        readonly ConsoleWindow konzole;
         ChessPiece lastCapturedFig;
         bool lastCapturedFig_hasMoved;
         bool lastMovedFig_hasMoved;
@@ -157,7 +157,7 @@ namespace FormsChess
             
             if (AI_konzole)
             {
-                konzole = new Form3();
+                konzole = new ConsoleWindow();
                 konzole.Show(this);
             }
             ChessEngineInit();
@@ -1457,6 +1457,7 @@ namespace FormsChess
                         {
                             pocetTahuOdVyhozeni = 0;
                             PricistSkore(row, column);
+                            if (connectionToChessBoard) SendCaptureFigCommand(row, column);
                             PridatVyhozenouFigurku(figurka_RowColumn);
                             AktualizovatNotaci(figurka_selectedRowColumn, figurka_RowColumn);
                             figurkaVyhozena = true;
@@ -1511,6 +1512,7 @@ namespace FormsChess
                             {
                                 // řádek ze zvolení source, nikde jinde se selectedPieceRow a column nepotkají
                                 PricistSkore(selectedPieceRow, column);
+                                if (connectionToChessBoard) SendCaptureFigCommand(selectedPieceRow, column);
                                 PridatVyhozenouFigurku(chessBoard[selectedPieceRow, column]);
                                 notaceHry.RemoveAt(notaceHry.Count - 1);
                                 AktualizovatNotaci(chessBoard[selectedPieceRow, column], pawn);
@@ -1577,15 +1579,13 @@ namespace FormsChess
                                 if (i >= 0 && i <= 7 && j >= 0 && j <= 7)
                                 {
                                     ChessPiece atomicPiece = chessBoard[i, j];
-                                    if (!(atomicPiece is null))
+                                    if (!(atomicPiece is null) && !(atomicPiece is Pawn))
                                     {
-                                        if (!(atomicPiece is Pawn))
-                                        {
-                                            PridatVyhozenouFigurku(atomicPiece);
-                                            atomicPiece = null;
-                                            chessBoard[i, j] = null;
-                                            buttonGrid[i, j].BackgroundImage = null;
-                                        }
+                                        PridatVyhozenouFigurku(atomicPiece);
+                                        PricistSkore(i, j);
+                                        atomicPiece = null;
+                                        chessBoard[i, j] = null;
+                                        buttonGrid[i, j].BackgroundImage = null;
                                     }
                                 }
 
@@ -2545,7 +2545,7 @@ namespace FormsChess
                         return NahradyZaPesaka.BISHOP;
                 }
             }
-            Form form2 = new Form2_choosePawnAlternative();
+            Form form2 = new ChoosePawnAlternativeWindow();
             DialogResult zvolenaFigurka = form2.ShowDialog();
             switch (zvolenaFigurka)
             {

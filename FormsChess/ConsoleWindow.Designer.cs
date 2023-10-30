@@ -1,6 +1,6 @@
 ﻿namespace FormsChess
 {
-    partial class Form3
+    partial class ConsoleWindow
     {
         /// <summary>
         /// Required designer variable.

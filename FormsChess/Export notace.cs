@@ -18,7 +18,7 @@ namespace FormsChess
             {
                 timer1.Stop();
             }
-            Form4 format = new Form4();
+            NotationExportWindow format = new NotationExportWindow();
             DialogResult notaceResult = format.ShowDialog();
             if (notaceResult == DialogResult.OK)
             {
@@ -161,7 +161,7 @@ namespace FormsChess
         }
         private string ZjistitJmenoHrace(PlayerColor playerColor)
         {
-            Form2 form2 = new Form2();
+            NameInputWindow form2 = new NameInputWindow();
             form2.Text = $"Zvolte jméno hráče {playerColor}";
             form2.ShowDialog();
             return form2.jmeno;

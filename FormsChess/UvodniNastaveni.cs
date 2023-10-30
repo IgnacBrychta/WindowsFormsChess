@@ -24,7 +24,7 @@ namespace FormsChess
 
         private void NastaveniSachu()
         {
-            var nastaveni = new Form_nastaveni();
+            var nastaveni = new SettingsWindow();
             nastaveni.ShowDialog();
             FENnotace_filePath                   = nastaveni.FENnotace;
             atomicMode                           = nastaveni.atomicMode;

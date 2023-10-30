@@ -1,5 +1,6 @@
 ﻿#define HEZKY_VYPIS
-#define SERIAL_PORT_DEBUG
+#define _SERIAL_PORT_DEBUG
+#define _DEBUG_SHOW_ARRAY
 
 using System;
 using System.Collections;
@@ -15,6 +16,8 @@ namespace FormsChess
     {
         const int columnsOfArduinoDisplay = 16;
         const int numOfDiodes = 256;
+        Point capturedFigWhitePos = new Point(-2, 8);
+        Point capturedFigBlackPos = new Point( 2, 8);
         private void CheckIfReceivedMoveValid(int row, int column)
         {
             if(!availableMovesOnChessboard.Any(x => x.Key[0] == row && x.Key[1] == column))
@@ -58,6 +61,7 @@ namespace FormsChess
         }
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            return;
             Thread.Sleep(5);
             string serialPortData = serialPort.ReadExisting();
 #if SERIAL_PORT_DEBUG
@@ -81,7 +85,7 @@ namespace FormsChess
                 {
                     case "1":
                         if (hracNaRade != PlayerColor.WHITE) { return; }
-                        if (gameState == GameState.CHECKMATE) { return; }
+                        else if (gameState == GameState.CHECKMATE) { return; }
                         Invoke(new Action(() =>
                         {
                             Prohra("Hráč se vzdal.", "Prohra");
@@ -89,7 +93,7 @@ namespace FormsChess
                         break;
                     case "2":
                         if (hracNaRade == PlayerColor.WHITE) { return; }
-                        if (gameState == GameState.CHECKMATE) { return; }
+                        else if (gameState == GameState.CHECKMATE) { return; }
                         Invoke(new Action(() =>
                         {
                             Prohra("Hráč se vzdal.", "Prohra");
@@ -99,19 +103,19 @@ namespace FormsChess
                         if (gameState == GameState.CHECKMATE) { return; }
                         Invoke(new Action(() =>
                         {
-                            NCBbutton_remiza_Click(false, new EventArgs());
+                            NCBbutton_remiza_Click(this, new EventArgs());
                         }));
                         break;
                     case "4":
-                        NCBbutton_Restart_Click(false, new EventArgs());
+                        NCBbutton_Restart_Click(this, new EventArgs());
                         break;
                     case "5":
                         if (gameState == GameState.CHECKMATE) { return; }
-                        NCBbutton_minimaxAlgoritmus_Click(false, new EventArgs());
+                        NCBbutton_minimaxAlgoritmus_Click(this, new EventArgs());
                         break;
                     case "6":
                         if (gameState == GameState.CHECKMATE) { return; }
-                        if(!NCBbutton_vratitTah.Enabled) { return; }
+                        else if(!NCBbutton_vratitTah.Enabled) { return; }
                         VratitPohyb();
                         break;
                 }
@@ -140,6 +144,40 @@ namespace FormsChess
             BitArray bitArray = GetChessBoardState();
             byte[] byteArray = BitArrayToByteArray(bitArray);
             serialPort.Write(byteArray, 0, 32);
+        }
+        private void SendCaptureFigCommand(int row, int column)
+        {
+            //SendChessBoardState();
+            return;
+            serialPort.Write(new byte[] { 0b0000_0101 }, 0, 1);
+            char[] moveData = new char[4];
+            moveData[0] = Convert.ToChar(row);
+            moveData[1] = Convert.ToChar(column);
+
+            PlayerColor capturedPieceColor = chessBoard[row, column].playerColor;
+            if(capturedPieceColor == PlayerColor.WHITE)
+            {
+                if (capturedFigWhitePos.x == 7) 
+                {
+                    capturedFigWhitePos.x = 0;
+                    capturedFigWhitePos.y++;
+                }
+                capturedFigWhitePos.x++;
+                moveData[2] = Convert.ToChar(capturedFigWhitePos.x);
+                moveData[3] = Convert.ToChar(capturedFigWhitePos.y);
+            }
+            else
+            {
+                if (capturedFigBlackPos.x == 7)
+                {
+                    capturedFigBlackPos.x = 0;
+                    capturedFigBlackPos.y--;
+                }
+                capturedFigBlackPos.x++;
+                moveData[2] = Convert.ToChar(capturedFigBlackPos.x);
+                moveData[3] = Convert.ToChar(capturedFigBlackPos.y);
+            }
+            serialPort.Write(string.Join("", moveData));
         }
         public static byte[] BitArrayToByteArray(BitArray bits)
         {
@@ -183,7 +221,7 @@ namespace FormsChess
                 bits += bitArray[i] ? '1' : '0';
             }
 #endif
-            //Clipboard.SetText(bits);
+            Clipboard.SetText(bits);
             MessageBox.Show(bits);
         }
         private BitArray GetChessBoardState()
@@ -259,6 +297,11 @@ namespace FormsChess
         }
         private void UpdateDisplays()
         {
+            if(!serialPort.IsOpen)
+            {
+                MessageBox.Show("Došlo ke ztrátě spojení s reálnou šachovnicí.", "Chyba připojení", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
             serialPort.Write(new byte[] { 0b0000_0010 }, 0, 1);
             string text = string.Empty;
             if (casomira == Casomira.VYCHOZI)
