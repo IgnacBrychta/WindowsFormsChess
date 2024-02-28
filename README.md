@@ -67,8 +67,6 @@
 * Sjednotil jazyk, ve kterém je zdrojový kód
 * Podpora pro více jazyků
 * Vrácení více než jednoho tahu
-## Kolik času už tomu bylo obětováno?
-Vývoj začal 29.11.2022 a pokračuje doposud, 18.2.2023. Kdyby se to celkem stihlo do tří a půl měsíců, bylo by to super. Celkem tomuto projektu bylo věnováno možná tak 200, 250, 300 hodin? Kdo ví už honestly.
 
 [uvodni-fotka]: https://i.imgur.com/ugQwU3b.png
 [led-matrix]: https://i.imgur.com/2l6L9Ot.png
