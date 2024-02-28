@@ -51,8 +51,7 @@
 ## Na čem se ještě pracuje:
 * ### Ignácovy šachy 3D  
 	* #### Šachovnice v reálném životě
-	 ![Fyzická šachovnice][led-matrix]
-	 ![Box pro elektroniku pro šachovnici][skatule]
+	 ![Fyzická šachovnice][led-matrix] ![Box pro elektroniku pro šachovnici][skatule]
 	* Když hráč fyzicky zvedne figurku, zobrazí se mu dostupné tahy na svítící šachovnici
 	* Fyzická tlačítka pro vzdání se, remízu, přítele na telefonu, restart hry
 	* V případě hry sám se sebou lze jako protihráče vyzvat [AI][stockfish] („přítel na telefonu"), která zvládne fyzicky pohyb na šachovnici provést
@@ -68,7 +67,7 @@
 * Podpora pro více jazyků
 * Vrácení více než jednoho tahu
 
-[uvodni-fotka]: https://i.imgur.com/ugQwU3b.png
+[uvodni-fotka]: https://i.imgur.com/y7X5yLC.gif
 [led-matrix]: https://i.imgur.com/2l6L9Ot.png
 [skatule]: https://i.imgur.com/rfwegqm.jpeg
 [fen-chesscom]: https://www.chess.com/terms/fen-chess
